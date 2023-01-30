@@ -1,0 +1,10 @@
+<div>
+  <h1 mat-dialog-title>Eliminar Producto</h1>
+  <div mat-dialog-content>Descripción: {{ data.descripcion }}</div>
+  <div mat-dialog-actions class="container-buttons">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="onDelete()">
+      Eliminar
+    </button>
+  </div>
+</div>

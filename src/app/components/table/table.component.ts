@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Producto } from 'src/app/interfaces/producto.interface';
 import { ProductoService } from 'src/app/services/producto.service';
+import { DialogDeleteComponent } from '../dialog-delete/dialog-delete.component';
 
 @Component({
   selector: 'app-table',
@@ -17,7 +19,10 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productoService: ProductoService) {
+  constructor(
+    private productoService: ProductoService,
+    public dialog: MatDialog
+  ) {
     // Asigna los datos a la fuente de datos para que la tabla los represente y ademas de configuarar el paginador y el sort
     this.productoService.getProductos().subscribe((res) => {
       this.dataSource = new MatTableDataSource(res);
@@ -34,8 +39,16 @@ export class TableComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  onDelete(producto: Producto) {
-    this.productoService.deleteProducto(producto);
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string,
+    producto: Producto
+  ): void {
+    this.dialog.open(DialogDeleteComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { ...producto },
+    });
   }
 }
