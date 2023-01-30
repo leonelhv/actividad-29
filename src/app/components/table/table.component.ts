@@ -34,4 +34,8 @@ export class TableComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  onDelete(producto: Producto) {
+    this.productoService.deleteProducto(producto);
+  }
 }

@@ -17,7 +17,7 @@ import { Producto } from '../interfaces/producto.interface';
 export class ProductoService {
   constructor(private firestore: Firestore) {}
 
-  addProduct(producto: Producto) {
+  addProduct(producto: Partial<Producto>) {
     const productoRef = collection(this.firestore, 'productos');
     return addDoc(productoRef, producto);
   }

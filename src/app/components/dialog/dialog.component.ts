@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Producto } from 'src/app/interfaces/producto.interface';
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-dialog',
@@ -7,15 +10,40 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./dialog.component.css'],
 })
 export class DialogComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private productoService: ProductoService,
+    private dialogRef: MatDialogRef<DialogComponent>
+  ) {
+    this.initForm();
+  }
 
-  articuloForm = this.fb.group({
-    codigo: [],
-    descripcion: [],
-    precio: [],
-  });
+  articuloForm!: FormGroup;
 
   get form() {
     return this.articuloForm.controls;
+  }
+
+  onSave() {
+    const { codigo, descripcion, precio } = this.articuloForm
+      .value as Partial<Producto>;
+
+    if (this.articuloForm.valid) {
+      const newProducto = {
+        codigo: Number(codigo),
+        descripcion: descripcion,
+        precio: Number(precio),
+      };
+      this.productoService.addProduct(newProducto);
+      this.initForm();
+      this.dialogRef.close();
+    }
+  }
+  private initForm() {
+    this.articuloForm = this.fb.group({
+      codigo: ['', [Validators.required, Validators.min(1)]],
+      descripcion: ['', [Validators.required, Validators.minLength(4)]],
+      precio: ['', [Validators.required, Validators.min(5)]],
+    });
   }
 }

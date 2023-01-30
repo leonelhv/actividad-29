@@ -1,50 +1,48 @@
-<form [formGroup]="articuloForm">
+<form [formGroup]="articuloForm" (submit)="onSave()">
   <h1 mat-dialog-title>Artículo</h1>
   <div mat-dialog-content class="container_fields">
     <mat-form-field class="example-full-width">
-      <mat-label>Ingrese Código</mat-label>
-      <input type="text" matInput formControlName="codigo" placeholder="0" />
-      <mat-error
-        *ngIf="
-          form['codigo'].hasError('email') &&
-          !form['codigo'].hasError('required')
-        "
-      >
-        Ingrese un código
+      <input type="number" matInput formControlName="codigo" placeholder="0" />
+      <mat-error *ngIf="form['codigo'].hasError('required')">
+        El código es requerido
+      </mat-error>
+      <mat-error *ngIf="form['codigo'].hasError('min')">
+        Solo se acepta números mayor que cero
       </mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <mat-label>Ingrese descripción</mat-label>
       <input
-        type="email"
+        type="text"
         matInput
         formControlName="descripcion"
         placeholder="papa"
       />
-      <mat-error
-        *ngIf="
-          form['descripcion'].hasError('email') &&
-          !form['descripcion'].hasError('required')
-        "
-      >
+      <mat-error *ngIf="form['descripcion'].hasError('required')">
         La descripción es requerida
+      </mat-error>
+      <mat-error *ngIf="form['descripcion'].hasError('minlength')">
+        La descripción debe ser de al menos 4 carácteres
       </mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <mat-label>Ingrese Precio</mat-label>
-      <input type="email" matInput formControlName="precio" placeholder="8" />
-      <mat-error
-        *ngIf="
-          form['precio'].hasError('email') &&
-          !form['precio'].hasError('required')
-        "
-      >
+      <input type="number" matInput formControlName="precio" placeholder="8" />
+      <mat-error *ngIf="form['precio'].hasError('required')">
         El precio es requerido
+      </mat-error>
+      <mat-error *ngIf="form['precio'].hasError('min')">
+        El precio mínimo es 5
       </mat-error>
     </mat-form-field>
   </div>
   <div mat-dialog-actions class="container_buttons">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button>Confirmar</button>
+    <button mat-stroked-button mat-dialog-close>Cancelar</button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="accent"
+      [disabled]="articuloForm.invalid"
+    >
+      Confirmar
+    </button>
   </div>
 </form>
