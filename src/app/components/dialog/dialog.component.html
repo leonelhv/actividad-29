@@ -1,0 +1,50 @@
+<form [formGroup]="articuloForm">
+  <h1 mat-dialog-title>Artículo</h1>
+  <div mat-dialog-content class="container_fields">
+    <mat-form-field class="example-full-width">
+      <mat-label>Ingrese Código</mat-label>
+      <input type="text" matInput formControlName="codigo" placeholder="0" />
+      <mat-error
+        *ngIf="
+          form['codigo'].hasError('email') &&
+          !form['codigo'].hasError('required')
+        "
+      >
+        Ingrese un código
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Ingrese descripción</mat-label>
+      <input
+        type="email"
+        matInput
+        formControlName="descripcion"
+        placeholder="papa"
+      />
+      <mat-error
+        *ngIf="
+          form['descripcion'].hasError('email') &&
+          !form['descripcion'].hasError('required')
+        "
+      >
+        La descripción es requerida
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Ingrese Precio</mat-label>
+      <input type="email" matInput formControlName="precio" placeholder="8" />
+      <mat-error
+        *ngIf="
+          form['precio'].hasError('email') &&
+          !form['precio'].hasError('required')
+        "
+      >
+        El precio es requerido
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="container_buttons">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button>Confirmar</button>
+  </div>
+</form>
